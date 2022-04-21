@@ -21,7 +21,7 @@ function operate(x, y, operation) {
   console.log(y);
   switch (operation) {
     case "/":
-      return divide(x, y);
+      return divide(x, y); //obviously have to tell the formula what to return
     case "*":
       return multiply(x, y)
     case "+":
