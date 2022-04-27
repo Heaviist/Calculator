@@ -17,7 +17,7 @@ button {
   border: 0;
   border-radius: 100%;
   font-size: 20px;
-  background-color: chocolate;
+  background-color: rgb(210, 105, 30);
   color: whitesmoke;
 }
 
@@ -34,16 +34,20 @@ button {
 }
 
 .output-screen {
-  background-color: chocolate;
-  opacity: .7;
-  width: 210px;
+  background-color: rgb(210, 105, 30, .7);
+  width: 200px;
   margin: auto;
   text-align: right;
   padding: 10px 10px;
   color: whitesmoke;
   font-size: 20px;
+  font-weight: bold;
+  border-radius: 20px;
+  border-width: 5px;
+  border-color: chocolate;
+  border-style: ridge;
 }
 
 button:hover {
-  background-color: grey;
+  background-color: rgb(210, 105, 30, .7);
 }

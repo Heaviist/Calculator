@@ -15,13 +15,9 @@ function divide(a, b) {
 }
 
 function operate(x, y, operation) {
-
-  console.log(operation);
-  console.log(x);
-  console.log(y);
   switch (operation) {
     case "/":
-      return divide(x, y); //obviously have to tell the formula what to return
+      return divide(x, y); //obviously have to tell the formula what to return. somehow omitted this at first
     case "*":
       return multiply(x, y)
     case "+":
