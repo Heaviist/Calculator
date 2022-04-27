@@ -1,3 +1,32 @@
+const standByText = 'Ready to Quack!';
+let output = document.querySelector('.output-screen'); //create object for accessing the output value in the page
+output.innerHTML = standByText;
+const numberPressed = document.querySelectorAll('.number'); //create list to access number entries
+const allClear = document.querySelector('#all-clear'); //create object for all clear button
+let savedInput = 0;
+
+numberPressed.forEach(number => {
+  number.addEventListener('click', () => {
+    updateOutput(number.innerHTML);
+  })
+});
+
+allClear.addEventListener('click', () => {
+  output.innerHTML = standByText;
+  savedInput = 0;
+})
+
+function updateOutput(entered) {
+  if (output.innerHTML == standByText) {
+    clearOutput(); //clear display if it's in Ready to Quack state
+  }
+  output.innerHTML = `${output.innerHTML}${entered}`; //take current value and append entered value. This way all stays a string and appending the next value is easy
+}
+
+function clearOutput() {
+  output.innerHTML = '';
+}
+
 function add(a, b) {
   return (a + b);
 }
