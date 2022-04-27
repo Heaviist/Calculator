@@ -10,9 +10,24 @@ let currentOperator = '';
 const numberPressed = document.querySelectorAll('.number');
 const allClear = document.querySelector('#all-clear');
 const operationPressed = document.querySelectorAll('.operation');
+const equalSign = document.querySelector('#equals');
 
 numberPressed.forEach(number => {
   number.addEventListener('click', () => {
+    switch (output.innerHTML) {
+      case "+":
+      case "/":
+      case "*":
+      case "-":
+      case "^":
+      case "sqrt":
+        output.innerHTML = '';
+        console.log(currentOperator);
+        console.log(workingValue);
+        break;
+      default:
+        break;
+    }
     updateOutput(number.innerHTML);
   })
 });
@@ -21,10 +36,15 @@ numberPressed.forEach(number => {
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
     workingValue = output.innerHTML;
-    console.log(workingValue);
+    currentOperator = op.innerHTML;
     clearOutput();
     updateOutput(op.innerHTML);
   })
+})
+
+//present result when = is pressed. ParseInt because inputs are stored as strings initially
+equalSign.addEventListener('click', () => {
+  output.innerHTML = operate(parseInt(workingValue), parseInt(output.innerHTML), currentOperator);
 })
 
 function updateOutput(entered) {
