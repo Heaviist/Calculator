@@ -1,9 +1,15 @@
+//initiate basic variables for operations and output
 const standByText = 'Ready to Quack!';
 let output = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 output.innerHTML = standByText;
-const numberPressed = document.querySelectorAll('.number'); //create list to access number entries
-const allClear = document.querySelector('#all-clear'); //create object for all clear button
 let savedInput = 0;
+let workingValue = 0;
+let currentOperator = '';
+
+//set constants for elements in the document
+const numberPressed = document.querySelectorAll('.number');
+const allClear = document.querySelector('#all-clear');
+const operationPressed = document.querySelectorAll('.operation');
 
 numberPressed.forEach(number => {
   number.addEventListener('click', () => {
@@ -11,9 +17,14 @@ numberPressed.forEach(number => {
   })
 });
 
-allClear.addEventListener('click', () => {
-  output.innerHTML = standByText;
-  savedInput = 0;
+//if operator is clicked, then save previous inputs and display operator
+operationPressed.forEach(op => {
+  op.addEventListener('click', () => {
+    workingValue = output.innerHTML;
+    console.log(workingValue);
+    clearOutput();
+    updateOutput(op.innerHTML);
+  })
 })
 
 function updateOutput(entered) {
@@ -22,6 +33,12 @@ function updateOutput(entered) {
   }
   output.innerHTML = `${output.innerHTML}${entered}`; //take current value and append entered value. This way all stays a string and appending the next value is easy
 }
+
+//reset output display
+allClear.addEventListener('click', () => {
+  output.innerHTML = standByText;
+  savedInput = 0;
+})
 
 function clearOutput() {
   output.innerHTML = '';
@@ -43,6 +60,14 @@ function divide(a, b) {
   return (a / b);
 }
 
+function power(a, b) {
+  return (a ** b);
+}
+
+function root(a) {
+  return Math.sqrt(a);
+}
+
 function operate(x, y, operation) {
   switch (operation) {
     case "/":
@@ -53,6 +78,10 @@ function operate(x, y, operation) {
       return add(x, y);
     case "-":
       return subtract(x, y);
+    case "^":
+      return power(x, y);
+    case "root":
+      return root(x);
     default:
       break;
   }
