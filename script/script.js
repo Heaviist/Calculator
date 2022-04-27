@@ -2,7 +2,7 @@
 const standByText = 'Ready to Quack!';
 let output = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 output.innerHTML = standByText;
-let savedInput = 0;
+let savedValue = 0;
 let workingValue = 0;
 let currentOperator = '';
 
@@ -26,7 +26,6 @@ numberPressed.forEach(number => {
         console.log(workingValue);
         break;
       default:
-        break;
     }
     updateOutput(number.innerHTML);
   })
@@ -35,7 +34,7 @@ numberPressed.forEach(number => {
 //if operator is clicked, then save previous inputs and display operator
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
-    workingValue = output.innerHTML;
+    savedValue = parseInt(output.innerHTML);
     currentOperator = op.innerHTML;
     clearOutput();
     updateOutput(op.innerHTML);
@@ -44,7 +43,11 @@ operationPressed.forEach(op => {
 
 //present result when = is pressed. ParseInt because inputs are stored as strings initially
 equalSign.addEventListener('click', () => {
-  output.innerHTML = operate(parseInt(workingValue), parseInt(output.innerHTML), currentOperator);
+  if (savedValue != parseInt(output.innerHTML)) {
+    workingValue = parseInt(output.innerHTML);
+  }
+  savedValue = operate(savedValue, workingValue, currentOperator);
+  output.innerHTML = savedValue;
 })
 
 function updateOutput(entered) {
@@ -57,7 +60,7 @@ function updateOutput(entered) {
 //reset output display
 allClear.addEventListener('click', () => {
   output.innerHTML = standByText;
-  savedInput = 0;
+  savedValue = 0;
 })
 
 function clearOutput() {
@@ -100,7 +103,7 @@ function operate(x, y, operation) {
       return subtract(x, y);
     case "^":
       return power(x, y);
-    case "root":
+    case "sqrt":
       return root(x);
     default:
       break;
