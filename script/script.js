@@ -33,14 +33,14 @@ numberPressed.forEach(number => {
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
     currentOperator = op.innerHTML;
-    
-    savedValue = parseInt(output.innerHTML);
-    if (currentOperator == 'sqrt') {
-      evaluate();
-    } else {
-      clearOutput();
-      updateOutput(op.innerHTML);
-    }
+
+    workingValue = parseInt(output.innerHTML);
+    //if (currentOperator == 'sqrt') {
+    //  evaluate();
+    //} else {
+    clearOutput();
+    updateOutput(op.innerHTML);
+    //}
   })
 })
 
