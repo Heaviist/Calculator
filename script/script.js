@@ -14,6 +14,7 @@ const allClear = document.querySelector('#all-clear');
 const operationPressed = document.querySelectorAll('.operation');
 const equalSign = document.querySelector('#equals');
 const undo = document.querySelector('#backspace');
+const dot = document.querySelector('#num-dot');
 
 //when a number is pressed, simply update the screen with that number. If there's an operation on screen, clear screen first
 numberPressed.forEach(number => {
@@ -33,16 +34,21 @@ numberPressed.forEach(number => {
   })
 });
 
-//if operator is clicked, then save previous inputs and display operator. ParseInt because inputs are stored as strings initially
+dot.addEventListener('click', () => {
+  dot.disabled = true;
+  dot.classList.add('disabled');
+})
+
+//if operator is clicked, then save previous inputs and display operator. ParseFloat because inputs are stored as strings initially
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
     if (equalsPressed == false && currentOperator != '') {
       previousInput = currentInput;
-      currentInput = parseInt(outputScreen.innerHTML);
+      currentInput = parseFloat(outputScreen.innerHTML);
       evaluate();
       currentInput = result;
     } else {
-      currentInput = parseInt(outputScreen.innerHTML); //also makes sure that when equals is not pressed, the currently displayed value is used for further calculations
+      currentInput = parseFloat(outputScreen.innerHTML); //also makes sure that when equals is not pressed, the currently displayed value is used for further calculations
     }
 
     equalsPressed = false; //reset to normal state to take new values
@@ -72,7 +78,7 @@ equalSign.addEventListener('click', () => {
           break;
         default:
           previousInput = currentInput;
-          currentInput = parseInt(outputScreen.innerHTML);
+          currentInput = parseFloat(outputScreen.innerHTML);
           evaluate();
           equalsPressed = true;
           break;
@@ -168,6 +174,8 @@ function sqrt(a) {
 }
 
 function operate(x, y, operation) {
+  dot.disabled = false;
+  dot.classList.remove('disabled');
   switch (operation) {
     case "/":
       return divide(x, y); //obviously have to tell the formula what to return. somehow omitted this at first
