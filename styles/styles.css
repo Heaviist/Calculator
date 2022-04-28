@@ -18,7 +18,7 @@ button {
   border-radius: 100%;
   font-size: 20px;
   background-color: rgb(210, 105, 30, 0.7);
-  color: whitesmoke;
+  color: ivory;
   font-weight: bold;
 }
 
@@ -91,7 +91,7 @@ button:active {
   margin: auto;
   text-align: right;
   padding: 10px 10px;
-  color: whitesmoke;
+  color: ivory;
   font-size: 20px;
   font-weight: bold;
   border-radius: 20px;
@@ -100,10 +100,13 @@ button:active {
   border-style: ridge;
 }
 
-.disabled {
+.dot-disabled,
+.dot-disabled:hover {
   background-color: rgba(53, 26, 7, 0.7);
 }
 
-.disabled:hover {
-  background-color: rgba(53, 26, 7, 0.7);
+.operation-disabled,
+.operation-disabled:hover {
+  background-color: rgba(0, 60, 60, 0.7);
+  color: ivory;
 }
