@@ -1,9 +1,9 @@
 //initiate basic variables for operations and output
 const standByText = 'Ready to Quack!';
-let output = document.querySelector('.output-screen'); //create object for accessing the output value in the page
-output.innerHTML = standByText;
-let savedValue = 'unused'; //previous result/input, passively used
-let workingValue = 'unused'; //last input, actively used, operation will use this to act on saved value
+let outputScreen = document.querySelector('.output-screen'); //create object for accessing the output value in the page
+outputScreen.innerHTML = standByText;
+let result = '';
+let lastInput = '';
 let currentOperator = '';
 
 //set constants for elements in the document
@@ -15,7 +15,7 @@ const equalSign = document.querySelector('#equals');
 //when a number is pressed, simply update the screen with that number. If there's an operation on screen, clear screen first
 numberPressed.forEach(number => {
   number.addEventListener('click', () => {
-    switch (output.innerHTML) {
+    switch (outputScreen.innerHTML) {
       case "+":
       case "/":
       case "*":
@@ -33,14 +33,13 @@ numberPressed.forEach(number => {
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
     currentOperator = op.innerHTML;
-
-    workingValue = parseInt(output.innerHTML);
-    //if (currentOperator == 'sqrt') {
-    //  evaluate();
-    //} else {
+    lastInput = outputScreen.innerHTML;
+    
+    console.log(lastInput);
+    console.log(currentOperator);
+    
     clearOutput();
-    updateOutput(op.innerHTML);
-    //}
+    updateOutput(currentOperator);
   })
 })
 
@@ -49,32 +48,28 @@ equalSign.addEventListener('click', () => {
   evaluate();
 })
 
+//reset output display
+allClear.addEventListener('click', () => {
+  outputScreen.innerHTML = standByText;
+  currentOperator = '';
+  result = '';
+  lastInput = '';
+})
+
 //evaluate entered expression
 function evaluate() {
-  //if (savedValue != parseInt(output.innerHTML)) {
-  workingValue = parseInt(output.innerHTML);
-  //}
-  savedValue = operate(savedValue, workingValue, currentOperator);
-  output.innerHTML = savedValue;
+  outputScreen.innerHTML = result;
 }
 
 function updateOutput(entered) {
-  if (output.innerHTML == standByText) {
+  if (outputScreen.innerHTML == standByText) {
     clearOutput(); //clear display if it's in Ready to Quack state
   }
-  output.innerHTML = `${output.innerHTML}${entered}`; //take current value and append entered value. This way all stays a string and appending the next value is easy
+  outputScreen.innerHTML = `${outputScreen.innerHTML}${entered}`; //take current value and append entered value. This way all stays a string and appending the next value is easy
 }
 
-//reset output display
-allClear.addEventListener('click', () => {
-  output.innerHTML = standByText;
-  savedValue = 'unused';
-  workingValue = 'unused';
-  currentOperator = '';
-})
-
 function clearOutput() {
-  output.innerHTML = '';
+  outputScreen.innerHTML = '';
 }
 
 function add(a, b) {
@@ -97,7 +92,7 @@ function power(a, b) {
   return (a ** b);
 }
 
-function root(a) {
+function sqrt(a) {
   return Math.sqrt(a);
 }
 
@@ -114,7 +109,7 @@ function operate(x, y, operation) {
     case "^":
       return power(x, y);
     case "sqrt":
-      return root(x);
+      return sqrt(x);
     default:
       break;
   }
