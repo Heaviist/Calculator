@@ -27,6 +27,7 @@ numberPressed.forEach(number => {
         clearOutput();
         break;
       default:
+        break;
     }
     updateOutput(number.innerHTML);
   })
@@ -74,6 +75,7 @@ equalSign.addEventListener('click', () => {
           currentInput = parseInt(outputScreen.innerHTML);
           evaluate();
           equalsPressed = true;
+          break;
       }
     }
   }
@@ -99,6 +101,7 @@ undo.addEventListener('click', () => {
       if (outputScreen.innerHTML == '') {
         outputScreen.innerHTML = 0;
       }
+      break;
   }
 })
 
