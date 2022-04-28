@@ -58,7 +58,7 @@ equalSign.addEventListener('click', () => {
     evaluate();
   } else {
     if (currentOperator == '') {
-      inputError();
+      inputError('no operator, restart!');
     } else {
       switch (outputScreen.innerHTML) {
         case "+":
@@ -66,7 +66,7 @@ equalSign.addEventListener('click', () => {
         case "*":
         case "-":
         case "^":
-          inputError();
+          inputError('No number, restart!');
           break;
         default:
           previousInput = currentInput;
@@ -84,8 +84,8 @@ allClear.addEventListener('click', () => {
 });
 
 //Show error and clear all after invalid input
-function inputError() {
-  outputScreen.innerHTML = 'Invalid input, restart!';
+function inputError(text) {
+  outputScreen.innerHTML = text;
   setTimeout(clearAll, 2000);
 }
 
@@ -101,7 +101,11 @@ function clearAll() {
 //evaluate entered expression
 function evaluate() {
   result = operate(previousInput, currentInput, currentOperator);
-  outputScreen.innerHTML = result;
+  if (result == Infinity) {
+    inputError('Un-Quack-Able');
+  } else {
+    outputScreen.innerHTML = result;
+  }
 }
 
 //Called to update the screen with the most recently inputted value
@@ -153,7 +157,7 @@ function operate(x, y, operation) {
       return subtract(x, y);
     case "^":
       return power(x, y);
-    case "sqrt":
+    case "√":
       return sqrt(x);
     default:
       break;

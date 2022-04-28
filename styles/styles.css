@@ -19,6 +19,32 @@ button {
   font-size: 20px;
   background-color: rgb(210, 105, 30);
   color: whitesmoke;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: rgb(210, 105, 30, .7);
+}
+
+#all-clear,
+#backspace {
+  background-color: rgb(75, 0, 130);
+}
+
+#all-clear:hover,
+#backspace:hover {
+  background-color: rgb(75, 0, 130, .7);
+}
+
+button:active {
+  transform: scale(0.95);
+  transition-duration: .1;
+  box-shadow: 3px 2px 12px 1px rgb(210, 105, 30, .4);
+}
+
+#all-clear:active,
+#backspace:active {
+  box-shadow: 3px 2px 12px 1px rgb(75, 0, 130, .4);
 }
 
 .row {
@@ -46,8 +72,4 @@ button {
   border-width: 5px;
   border-color: chocolate;
   border-style: ridge;
-}
-
-button:hover {
-  background-color: rgb(210, 105, 30, .7);
 }
