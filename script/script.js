@@ -2,9 +2,11 @@
 const standByText = 'Ready to Quack!';
 let outputScreen = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 outputScreen.innerHTML = standByText;
-let result = '';
-let lastInput = '';
+let result = 0;
+let currentInput = '';
+let previousInput = '';
 let currentOperator = '';
+let equalsPressed = false;
 
 //set constants for elements in the document
 const numberPressed = document.querySelectorAll('.number');
@@ -32,12 +34,14 @@ numberPressed.forEach(number => {
 //if operator is clicked, then save previous inputs and display operator
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
+    equalsPressed = false;
     currentOperator = op.innerHTML;
-    lastInput = outputScreen.innerHTML;
-    
-    console.log(lastInput);
+
+    currentInput = parseInt(outputScreen.innerHTML);
+
+    console.log(currentInput);
     console.log(currentOperator);
-    
+
     clearOutput();
     updateOutput(currentOperator);
   })
@@ -45,19 +49,30 @@ operationPressed.forEach(op => {
 
 //present result when = is pressed. ParseInt because inputs are stored as strings initially
 equalSign.addEventListener('click', () => {
+  if (equalsPressed == true) {
+    previousInput = result;
+    evaluate();
+  } else {
+  previousInput = currentInput;
+  currentInput = parseInt(outputScreen.innerHTML);
+  console.log(currentInput,previousInput,currentOperator,result);
   evaluate();
+  equalsPressed = true;
+  }
 })
 
 //reset output display
 allClear.addEventListener('click', () => {
   outputScreen.innerHTML = standByText;
   currentOperator = '';
-  result = '';
-  lastInput = '';
+  result = 0;
+  currentInput = '';
+  previousInput = '';
 })
 
 //evaluate entered expression
 function evaluate() {
+  result = operate(previousInput, currentInput, currentOperator);
   outputScreen.innerHTML = result;
 }
 
