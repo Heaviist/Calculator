@@ -2,11 +2,11 @@
 const standByText = 'Ready to Quack!';
 let outputScreen = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 outputScreen.innerHTML = standByText;
-let result = 0;
-let currentInput = '';
-let previousInput = '';
-let currentOperator = '';
-let equalsPressed = false;
+let result = 0; //result to be displayed
+let currentInput = ''; //last entered value
+let previousInput = ''; //helper variable to store previous values.
+let currentOperator = ''; //last entered operator
+let equalsPressed = false; //state to help decide what values to use when = is pressed
 
 //set constants for elements in the document
 const numberPressed = document.querySelectorAll('.number');
@@ -31,10 +31,10 @@ numberPressed.forEach(number => {
   })
 });
 
-//if operator is clicked, then save previous inputs and display operator
+//if operator is clicked, then save previous inputs and display operator. ParseInt because inputs are stored as strings initially
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
-    equalsPressed = false;
+    equalsPressed = false; //reset to normal state to take new values
     currentOperator = op.innerHTML;
 
     currentInput = parseInt(outputScreen.innerHTML);
@@ -47,7 +47,7 @@ operationPressed.forEach(op => {
   })
 })
 
-//present result when = is pressed. ParseInt because inputs are stored as strings initially
+//present result when = is pressed.
 equalSign.addEventListener('click', () => {
   if (equalsPressed == true) {
     previousInput = result;
@@ -61,7 +61,7 @@ equalSign.addEventListener('click', () => {
   }
 })
 
-//reset output display
+//reset output display and variables used
 allClear.addEventListener('click', () => {
   outputScreen.innerHTML = standByText;
   currentOperator = '';
