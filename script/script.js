@@ -2,8 +2,8 @@
 const standByText = 'Ready to Quack!';
 let output = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 output.innerHTML = standByText;
-let savedValue = 0;
-let workingValue = 0;
+let savedValue = 0; //previous result/input, passively used
+let workingValue = 0; //last input, actively used, operation will use this to act on saved value
 let currentOperator = '';
 
 //set constants for elements in the document
@@ -12,6 +12,7 @@ const allClear = document.querySelector('#all-clear');
 const operationPressed = document.querySelectorAll('.operation');
 const equalSign = document.querySelector('#equals');
 
+//when a number is pressed, simply update the screen with that number. If there's an operation on screen, clear screen first
 numberPressed.forEach(number => {
   number.addEventListener('click', () => {
     switch (output.innerHTML) {
@@ -21,9 +22,7 @@ numberPressed.forEach(number => {
       case "-":
       case "^":
       case "sqrt":
-        output.innerHTML = '';
-        console.log(currentOperator);
-        console.log(workingValue);
+        clearOutput();
         break;
       default:
     }
@@ -34,21 +33,30 @@ numberPressed.forEach(number => {
 //if operator is clicked, then save previous inputs and display operator
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
-    savedValue = parseInt(output.innerHTML);
     currentOperator = op.innerHTML;
-    clearOutput();
-    updateOutput(op.innerHTML);
+    savedValue = parseInt(output.innerHTML);
+    if (currentOperator == 'sqrt') {
+      evaluate();
+    } else {
+      clearOutput();
+      updateOutput(op.innerHTML);
+    }
   })
 })
 
 //present result when = is pressed. ParseInt because inputs are stored as strings initially
 equalSign.addEventListener('click', () => {
-  if (savedValue != parseInt(output.innerHTML)) {
-    workingValue = parseInt(output.innerHTML);
-  }
+  evaluate();
+})
+
+//evaluate entered expression
+function evaluate() {
+  //if (savedValue != parseInt(output.innerHTML)) {
+  workingValue = parseInt(output.innerHTML);
+  //}
   savedValue = operate(savedValue, workingValue, currentOperator);
   output.innerHTML = savedValue;
-})
+}
 
 function updateOutput(entered) {
   if (output.innerHTML == standByText) {
@@ -61,6 +69,8 @@ function updateOutput(entered) {
 allClear.addEventListener('click', () => {
   output.innerHTML = standByText;
   savedValue = 0;
+  workingValue = 0;
+  currentOperator = '';
 })
 
 function clearOutput() {
