@@ -83,11 +83,13 @@ allClear.addEventListener('click', () => {
   clearAll();
 });
 
+//Show error and clear all after invalid input
 function inputError() {
   outputScreen.innerHTML = 'Invalid input, restart!';
   setTimeout(clearAll, 2000);
 }
 
+//Fresh start for the user, reset all initial values
 function clearAll() {
   outputScreen.innerHTML = standByText;
   currentOperator = '';
@@ -102,6 +104,7 @@ function evaluate() {
   outputScreen.innerHTML = result;
 }
 
+//Called to update the screen with the most recently inputted value
 function updateOutput(entered) {
   if (outputScreen.innerHTML == standByText) {
     clearOutput(); //clear display if it's in Ready to Quack state
@@ -109,6 +112,7 @@ function updateOutput(entered) {
   outputScreen.innerHTML = `${outputScreen.innerHTML}${entered}`; //take current value and append entered value. This way all stays a string and appending the next value is easy
 }
 
+//start fresh, used for clearing the display before adding new content
 function clearOutput() {
   outputScreen.innerHTML = '';
 }
