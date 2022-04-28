@@ -8,11 +8,12 @@ let previousInput = ''; //helper variable to store previous values.
 let currentOperator = ''; //last entered operator
 let equalsPressed = false; //state to help decide what values to use when = is pressed
 
-//set constants for elements in the document
+//set constants for elements/buttons in the document
 const numberPressed = document.querySelectorAll('.number');
 const allClear = document.querySelector('#all-clear');
 const operationPressed = document.querySelectorAll('.operation');
 const equalSign = document.querySelector('#equals');
+const undo = document.querySelector('#backspace');
 
 //when a number is pressed, simply update the screen with that number. If there's an operation on screen, clear screen first
 numberPressed.forEach(number => {
@@ -82,6 +83,13 @@ equalSign.addEventListener('click', () => {
 allClear.addEventListener('click', () => {
   clearAll();
 });
+
+undo.addEventListener('click', () => {
+  outputScreen.innerHTML = outputScreen.innerHTML.slice(0, -1);
+  if (outputScreen.innerHTML == '') {
+    outputScreen.innerHTML = 0;
+  }
+})
 
 //Show error and clear all after invalid input
 function inputError(text) {
