@@ -2,8 +2,8 @@
 const standByText = 'Ready to Quack!';
 let output = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 output.innerHTML = standByText;
-let savedValue = 0; //previous result/input, passively used
-let workingValue = 0; //last input, actively used, operation will use this to act on saved value
+let savedValue = 'unused'; //previous result/input, passively used
+let workingValue = 'unused'; //last input, actively used, operation will use this to act on saved value
 let currentOperator = '';
 
 //set constants for elements in the document
@@ -21,7 +21,6 @@ numberPressed.forEach(number => {
       case "*":
       case "-":
       case "^":
-      case "sqrt":
         clearOutput();
         break;
       default:
@@ -34,6 +33,7 @@ numberPressed.forEach(number => {
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
     currentOperator = op.innerHTML;
+    
     savedValue = parseInt(output.innerHTML);
     if (currentOperator == 'sqrt') {
       evaluate();
@@ -68,8 +68,8 @@ function updateOutput(entered) {
 //reset output display
 allClear.addEventListener('click', () => {
   output.innerHTML = standByText;
-  savedValue = 0;
-  workingValue = 0;
+  savedValue = 'unused';
+  workingValue = 'unused';
   currentOperator = '';
 })
 
