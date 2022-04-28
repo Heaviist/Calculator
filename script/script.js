@@ -16,6 +16,22 @@ const equalSign = document.querySelector('#equals');
 const undo = document.querySelector('#backspace');
 const btnDot = document.querySelector('#num-dot');
 
+/*
+let testInt = 1234560000000000;
+let result1 = Math.floor(Math.log10(testInt));
+let result2 = testInt / (10 ** result1 / 1e9);
+let result3 = Math.round(result2);
+let result4 = result3 * (10 ** (result1 - 9))
+console.log(result1, result2, result3, result4);
+let result5 = testInt.toPrecision(10);
+let result6 = testInt.toExponential(9);
+console.log(result5, result6);
+
+let conversion = Math.ceil(Math.log10(testInt));
+let testResult = (testInt / (10 ** conversion)).toPrecision(10) * (10 ** conversion);
+console.log(testResult);
+*/
+
 //when a number is pressed, simply update the screen with that number. If there's an operation on screen, clear screen first
 numberPressed.forEach(number => {
   number.addEventListener('click', () => {
@@ -35,6 +51,7 @@ numberPressed.forEach(number => {
   })
 });
 
+//if dot clicked then disable
 btnDot.addEventListener('click', () => {
   dot('off');
 })
@@ -94,6 +111,7 @@ allClear.addEventListener('click', () => {
   clearAll();
 });
 
+//delete last input (backspace button)
 undo.addEventListener('click', () => {
   switch (outputScreen.innerHTML) {
     case "+":
@@ -103,6 +121,7 @@ undo.addEventListener('click', () => {
     case "^":
       currentOperator = ''
       outputScreen.innerHTML = currentInput;
+      operator('on');
       break;
     default:
       outputScreen.innerHTML = outputScreen.innerHTML.slice(0, -1);
@@ -153,6 +172,7 @@ function clearOutput() {
   outputScreen.innerHTML = '';
 }
 
+//toggle dot
 function dot(state) {
   if (state == 'on') {
     btnDot.disabled = false;
@@ -163,6 +183,7 @@ function dot(state) {
   }
 }
 
+//toggle operator buttons
 function operator(state) {
   if (state == 'on') {
     operationPressed.forEach(element => {
