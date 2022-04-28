@@ -34,7 +34,7 @@ numberPressed.forEach(number => {
 //if operator is clicked, then save previous inputs and display operator. ParseInt because inputs are stored as strings initially
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
-    if(equalsPressed == false && currentOperator != '') {
+    if (equalsPressed == false && currentOperator != '') {
       previousInput = currentInput;
       currentInput = parseInt(outputScreen.innerHTML);
       evaluate();
@@ -42,14 +42,14 @@ operationPressed.forEach(op => {
     } else {
       currentInput = parseInt(outputScreen.innerHTML); //also makes sure that when equals is not pressed, the currently displayed value is used for further calculations
     }
-    
+
     equalsPressed = false; //reset to normal state to take new values
     currentOperator = op.innerHTML;
 
     clearOutput();
     updateOutput(currentOperator);
   })
-})
+});
 
 //present result when = is pressed.
 equalSign.addEventListener('click', () => {
@@ -57,21 +57,44 @@ equalSign.addEventListener('click', () => {
     previousInput = result;
     evaluate();
   } else {
-  previousInput = currentInput;
-  currentInput = parseInt(outputScreen.innerHTML);
-  evaluate();
-  equalsPressed = true;
+    if (currentOperator == '') {
+      inputError();
+    } else {
+      switch (outputScreen.innerHTML) {
+        case "+":
+        case "/":
+        case "*":
+        case "-":
+        case "^":
+          inputError();
+          break;
+        default:
+          previousInput = currentInput;
+          currentInput = parseInt(outputScreen.innerHTML);
+          evaluate();
+          equalsPressed = true;
+      }
+    }
   }
-})
+});
 
 //reset output display and variables used
 allClear.addEventListener('click', () => {
+  clearAll();
+});
+
+function inputError() {
+  outputScreen.innerHTML = 'Invalid input, restart!';
+  setTimeout(clearAll, 2000);
+}
+
+function clearAll() {
   outputScreen.innerHTML = standByText;
   currentOperator = '';
   result = '';
   currentInput = '';
   previousInput = '';
-})
+}
 
 //evaluate entered expression
 function evaluate() {
