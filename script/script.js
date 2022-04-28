@@ -2,7 +2,7 @@
 const standByText = 'Ready to Quack!';
 let outputScreen = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 outputScreen.innerHTML = standByText;
-let result = 0; //result to be displayed
+let result = ''; //result to be displayed
 let currentInput = ''; //last entered value
 let previousInput = ''; //helper variable to store previous values.
 let currentOperator = ''; //last entered operator
@@ -34,13 +34,17 @@ numberPressed.forEach(number => {
 //if operator is clicked, then save previous inputs and display operator. ParseInt because inputs are stored as strings initially
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
+    if(equalsPressed == false && currentOperator != '') {
+      previousInput = currentInput;
+      currentInput = parseInt(outputScreen.innerHTML);
+      evaluate();
+      currentInput = result;
+    } else {
+      currentInput = parseInt(outputScreen.innerHTML); //also makes sure that when equals is not pressed, the currently displayed value is used for further calculations
+    }
+    
     equalsPressed = false; //reset to normal state to take new values
     currentOperator = op.innerHTML;
-
-    currentInput = parseInt(outputScreen.innerHTML);
-
-    console.log(currentInput);
-    console.log(currentOperator);
 
     clearOutput();
     updateOutput(currentOperator);
@@ -55,7 +59,6 @@ equalSign.addEventListener('click', () => {
   } else {
   previousInput = currentInput;
   currentInput = parseInt(outputScreen.innerHTML);
-  console.log(currentInput,previousInput,currentOperator,result);
   evaluate();
   equalsPressed = true;
   }
@@ -65,7 +68,7 @@ equalSign.addEventListener('click', () => {
 allClear.addEventListener('click', () => {
   outputScreen.innerHTML = standByText;
   currentOperator = '';
-  result = 0;
+  result = '';
   currentInput = '';
   previousInput = '';
 })
