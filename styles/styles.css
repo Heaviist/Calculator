@@ -31,9 +31,18 @@ button:hover {
   background-color: rgb(75, 0, 130);
 }
 
+.operation {
+  background-color: whitesmoke;
+  color: indigo;
+}
+
 #all-clear:hover,
 #backspace:hover {
   background-color: rgb(75, 0, 130, .7);
+}
+
+.operation:hover {
+  background-color: rgb(245, 245, 245, .7);
 }
 
 button:active {
@@ -43,7 +52,8 @@ button:active {
 }
 
 #all-clear:active,
-#backspace:active {
+#backspace:active,
+.operation:active {
   box-shadow: 3px 2px 12px 1px rgb(75, 0, 130, .4);
 }
 
