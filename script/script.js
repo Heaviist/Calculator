@@ -85,9 +85,20 @@ allClear.addEventListener('click', () => {
 });
 
 undo.addEventListener('click', () => {
-  outputScreen.innerHTML = outputScreen.innerHTML.slice(0, -1);
-  if (outputScreen.innerHTML == '') {
-    outputScreen.innerHTML = 0;
+  switch (outputScreen.innerHTML) {
+    case "+":
+    case "/":
+    case "*":
+    case "-":
+    case "^":
+      currentOperator = ''
+      outputScreen.innerHTML = currentInput;
+      break;
+    default:
+      outputScreen.innerHTML = outputScreen.innerHTML.slice(0, -1);
+      if (outputScreen.innerHTML == '') {
+        outputScreen.innerHTML = 0;
+      }
   }
 })
 
