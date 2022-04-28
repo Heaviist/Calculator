@@ -12,7 +12,7 @@ let equalsPressed = false; //state to help decide what values to use when = is p
 const numberPressed = document.querySelectorAll('.number');
 const allClear = document.querySelector('#all-clear');
 const operationPressed = document.querySelectorAll('.operation');
-const equalSign = document.querySelector('#equals');
+const equalSign = document.querySelector('#equal');
 const undo = document.querySelector('#backspace');
 const btnDot = document.querySelector('#num-dot');
 
@@ -54,27 +54,31 @@ numberPressed.forEach(number => {
 //if dot clicked then disable
 btnDot.addEventListener('click', () => {
   dot('off');
-})
+});
 
 //if operator is clicked, then save previous inputs and display operator. ParseFloat because inputs are stored as strings initially
 operationPressed.forEach(op => {
   op.addEventListener('click', () => {
-    if (equalsPressed == false && currentOperator != '') {
-      previousInput = currentInput;
-      currentInput = parseFloat(outputScreen.innerHTML);
-      evaluate();
-      currentInput = result;
+    if (outputScreen.innerHTML == 'Ready to Quack!') {
+      inputError('Number first, restart!');
     } else {
-      currentInput = parseFloat(outputScreen.innerHTML); //also makes sure that when equals is not pressed, the currently displayed value is used for further calculations
+      if (equalsPressed == false && currentOperator != '') {
+        previousInput = currentInput;
+        currentInput = parseFloat(outputScreen.innerHTML);
+        evaluate();
+        currentInput = result;
+      } else {
+        currentInput = parseFloat(outputScreen.innerHTML); //also makes sure that when equals is not pressed, the currently displayed value is used for further calculations
+      }
+
+      equalsPressed = false; //reset to normal state to take new values
+      dot('on');
+      currentOperator = op.innerHTML;
+      operator('off');
+
+      clearOutput();
+      updateOutput(currentOperator);
     }
-
-    equalsPressed = false; //reset to normal state to take new values
-    dot('on');
-    currentOperator = op.innerHTML;
-    operator('off');
-
-    clearOutput();
-    updateOutput(currentOperator);
   })
 });
 
@@ -130,7 +134,26 @@ undo.addEventListener('click', () => {
       }
       break;
   }
-})
+});
+
+document.addEventListener('keydown', (e) => {
+  let code = e.code.toLowerCase();
+  if (code == 'enter') {
+    e.preventDefault();
+    code = 'equal';
+  } else {
+    switch (e.key) {
+      case '*':
+        code = 'times';
+        break;
+      case '/':
+        code = 'divide';
+      default:
+        break;
+    }
+  }
+  document.getElementById(`${code}`).click();
+});
 
 //Show error and clear all after invalid input
 function inputError(text) {
