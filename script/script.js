@@ -1,5 +1,6 @@
 //initiate basic variables for operations and output
 const standByText = 'Ready to Quack!';
+const digits = 10; // sets max number of digits on output screen
 let outputScreen = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 outputScreen.innerHTML = standByText;
 let result = ''; //result to be displayed
@@ -16,21 +17,36 @@ const equalSign = document.querySelector('#equal');
 const undo = document.querySelector('#backspace');
 const btnDot = document.querySelector('#num-dot');
 
-/*
-let testInt = 1234560000000000;
-let result1 = Math.floor(Math.log10(testInt));
-let result2 = testInt / (10 ** result1 / 1e9);
-let result3 = Math.round(result2);
-let result4 = result3 * (10 ** (result1 - 9))
-console.log(result1, result2, result3, result4);
-let result5 = testInt.toPrecision(10);
-let result6 = testInt.toExponential(9);
-console.log(result5, result6);
 
-let conversion = Math.ceil(Math.log10(testInt));
-let testResult = (testInt / (10 ** conversion)).toPrecision(10) * (10 ** conversion);
-console.log(testResult);
+/*
+//rounding function, has issues when the last number is 9 rounded up, leads to bunch of trailing 0s
+function round(n) {
+  const order = Math.ceil(Math.log10(n)) - digits;
+  const rounded = Math.round(n / (10 ** order));
+  let resultRounded = rounded * (10 ** order);
+  if (resultRounded < 1e-4 || resultRounded > 1e7) {
+    resultRounded = resultRounded.toExponential(digits - 1);
+  }
+  return resultRounded;
+}
 */
+
+let number = 1234567890123456;
+while (number > 1e-15) {
+  console.log(round(number));
+  number /= 10;
+}
+
+//round the result to fit the display
+function round(n) {
+  resultRounded = n.toExponential(digits); //
+
+  if (resultRounded < 1e6 && resultRounded > 1e-4) { //if it's a number within this range, don't display scientific
+    resultRounded = parseFloat(resultRounded);
+  }
+
+  return resultRounded;
+}
 
 //when a number is pressed, simply update the screen with that number. If there's an operation on screen, clear screen first
 numberPressed.forEach(number => {
@@ -157,6 +173,7 @@ document.addEventListener('keydown', (e) => {
 
 //Show error and clear all after invalid input
 function inputError(text) {
+  outputScreen.classList.add('error-message');
   outputScreen.innerHTML = text;
   setTimeout(clearAll, 2000);
 }
@@ -170,6 +187,7 @@ function clearAll() {
   previousInput = '';
   dot('on');
   operator('on');
+  outputScreen.classList.remove('error-message');
 }
 
 //evaluate entered expression
