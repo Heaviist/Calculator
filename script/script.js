@@ -72,6 +72,7 @@ equalSign.addEventListener('click', () => {
   if (equalsPressed == true) {
     previousInput = result;
     evaluate();
+    dot('off');
   } else {
     if (currentOperator == '') {
       inputError('no operator, restart!');
@@ -89,6 +90,7 @@ equalSign.addEventListener('click', () => {
           currentInput = parseFloat(outputScreen.innerHTML);
           evaluate();
           equalsPressed = true;
+          dot('off');
           break;
       }
     }
@@ -166,7 +168,7 @@ function evaluate() {
     inputError('Un-Quack-Able'); //too big or divide by 0
   } else {
     const outputRounded = round(result);
-    if (isNaN(outputRounded)) {
+    if (isNaN(outputRounded)) { // round function will output NaN when receiving overly large or small inputs
       inputError("You've gone too far!");
     } else {
       outputScreen.innerHTML = outputRounded;
@@ -176,15 +178,14 @@ function evaluate() {
 
 //rounding function, has issues when the last number is 9 rounded up, leads to bunch of trailing 0s
 function round(r) {
-  sign = Math.sign(r);
-  n = Math.abs(r);
-  const order = Math.ceil(Math.log10(n)) - digits;
+  sign = Math.sign(r);//store sign for later
+  n = Math.abs(r);//take absolute value for processing
+  const order = Math.ceil(Math.log10(n)) - digits;//store order of magnitude for easy mathematical rounding and conversion to exponential if necessary
   const rounded = Math.round(n / (10 ** order));
   const resultRounded = rounded * (10 ** order);
   let roundedSigned = sign * resultRounded;
   if (order >= -3 || order <= -13) {
     roundedSigned = roundedSigned.toExponential(digits - 1);
-    console.log('help');
   }
   return roundedSigned;
 }
