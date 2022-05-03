@@ -60,9 +60,13 @@ operationPressed.forEach(op => {
       dot('on');
       currentOperator = op.innerHTML;
       operator('off');
-
-      clearOutput();
-      updateOutput(currentOperator);
+      if (currentOperator == "√") {
+        document.getElementById('equal').click();
+        operator('on');
+      } else {
+        clearOutput();
+        updateOutput(currentOperator);
+      }
     }
   })
 });
@@ -85,6 +89,7 @@ equalSign.addEventListener('click', () => {
         case "^":
           inputError('No number, restart!');
           break;
+        case "√":
         default:
           previousInput = currentInput;
           currentInput = parseFloat(outputScreen.innerHTML);
