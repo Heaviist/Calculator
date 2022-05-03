@@ -1,6 +1,6 @@
 //initiate basic variables for operations and output
 const standByText = 'Ready to Quack!';
-const digits = 10; // sets max number of digits on output screen
+const digits = 9; // sets max number of digits on output screen
 let outputScreen = document.querySelector('.output-screen'); //create object for accessing the output value in the page
 outputScreen.innerHTML = standByText;
 let result = ''; //result to be displayed
@@ -16,37 +16,6 @@ const operationPressed = document.querySelectorAll('.operation');
 const equalSign = document.querySelector('#equal');
 const undo = document.querySelector('#backspace');
 const btnDot = document.querySelector('#num-dot');
-
-
-/*
-//rounding function, has issues when the last number is 9 rounded up, leads to bunch of trailing 0s
-function round(n) {
-  const order = Math.ceil(Math.log10(n)) - digits;
-  const rounded = Math.round(n / (10 ** order));
-  let resultRounded = rounded * (10 ** order);
-  if (resultRounded < 1e-4 || resultRounded > 1e7) {
-    resultRounded = resultRounded.toExponential(digits - 1);
-  }
-  return resultRounded;
-}
-*/
-
-let number = 1234567890123456;
-while (number > 1e-15) {
-  console.log(round(number));
-  number /= 10;
-}
-
-//round the result to fit the display
-function round(n) {
-  resultRounded = n.toExponential(digits); //
-
-  if (resultRounded < 1e6 && resultRounded > 1e-4) { //if it's a number within this range, don't display scientific
-    resultRounded = parseFloat(resultRounded);
-  }
-
-  return resultRounded;
-}
 
 //when a number is pressed, simply update the screen with that number. If there's an operation on screen, clear screen first
 numberPressed.forEach(number => {
@@ -78,7 +47,7 @@ operationPressed.forEach(op => {
     if (outputScreen.innerHTML == 'Ready to Quack!') {
       inputError('Number first, restart!');
     } else {
-      if (equalsPressed == false && currentOperator != '') {
+      if (equalsPressed == false && currentOperator != '') { //continue operation with new operator after evaluating previous inputs
         previousInput = currentInput;
         currentInput = parseFloat(outputScreen.innerHTML);
         evaluate();
@@ -194,10 +163,30 @@ function clearAll() {
 function evaluate() {
   result = operate(previousInput, currentInput, currentOperator);
   if (result == Infinity) {
-    inputError('Un-Quack-Able');
+    inputError('Un-Quack-Able'); //too big or divide by 0
   } else {
-    outputScreen.innerHTML = result;
+    const outputRounded = round(result);
+    if (isNaN(outputRounded)) {
+      inputError("You've gone too far!");
+    } else {
+      outputScreen.innerHTML = outputRounded;
+    }
   }
+}
+
+//rounding function, has issues when the last number is 9 rounded up, leads to bunch of trailing 0s
+function round(r) {
+  sign = Math.sign(r);
+  n = Math.abs(r);
+  const order = Math.ceil(Math.log10(n)) - digits;
+  const rounded = Math.round(n / (10 ** order));
+  const resultRounded = rounded * (10 ** order);
+  let roundedSigned = sign * resultRounded;
+  if (order >= -3 || order <= -13) {
+    roundedSigned = roundedSigned.toExponential(digits - 1);
+    console.log('help');
+  }
+  return roundedSigned;
 }
 
 //Called to update the screen with the most recently inputted value
